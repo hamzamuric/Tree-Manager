@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: Prewave
+  datasource:
+    url: ${PG_URL:jdbc:postgresql://localhost:5432/pgdb}
+    username: ${PG_USER:admin}
+    password: ${PG_PASSWORD:admin}
+  jooq:
+    sql-dialect: postgres
+server:
+  http2:
+    enabled: true

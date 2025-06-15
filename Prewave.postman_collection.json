@@ -1,0 +1,151 @@
+{
+	"info": {
+		"_postman_id": "d345b9b4-5567-4d7b-b24c-e8ecd42a9378",
+		"name": "Prewave",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "6305537"
+	},
+	"item": [
+		{
+			"name": "get edges",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/edge/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"edge",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get edges stream",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/edge/1/stream",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"edge",
+						"1",
+						"stream"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get edges pretty",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/edge/1/pretty",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"edge",
+						"1",
+						"pretty"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create edge",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"from\": 1,\n    \"to\": 9\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/edge",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"edge"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete edge",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"from\": 1,\n    \"to\": 9\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/edge",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"edge"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete edge recursive",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"from\": 1,\n    \"to\": 3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/edge/recursive",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"edge",
+						"recursive"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
