@@ -81,7 +81,7 @@ class EdgeService(private val dsl: DSLContext) {
             select(EDGE.FROM_ID, EDGE.TO_ID)
                 .from(EDGE)
                 .where(EDGE.FROM_ID.eq(root))
-                .unionAll(
+                .union(
                     select(EDGE.FROM_ID, EDGE.TO_ID)
                         .from(EDGE)
                         .innerJoin(table(name(TREE)))
