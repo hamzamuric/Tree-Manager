@@ -41,6 +41,10 @@ Run Spring Boot application:
 $ ./gradlew bootRun
 ```
 
+# Swagger
+
+Swagger documentation is available at: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+
 # Testing the endpoints
 
 In the project root directory, there is a file called `Prewave.postman_collection.json`.

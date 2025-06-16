@@ -14,6 +14,31 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 @ControllerAdvice
 class GlobalExceptionHandler {
+
+    @ExceptionHandler(CycleDetectedException::class)
+    fun handleCycleDetected(e: CycleDetectedException, request: WebRequest): ResponseEntity<ApiError> {
+        val error = ApiError(
+            status = HttpStatus.CONFLICT.value(),
+            error = HttpStatus.CONFLICT.reasonPhrase,
+            message = e.message ?: "Cycle detected",
+            path = extractPath(request)
+        )
+
+        return ResponseEntity(error, HttpStatus.CONFLICT)
+    }
+
+    @ExceptionHandler(InvalidTreeException::class)
+    fun handleInvalidTree(e: InvalidTreeException, request: WebRequest): ResponseEntity<ApiError> {
+        val error = ApiError(
+            status = HttpStatus.CONFLICT.value(),
+            error = HttpStatus.CONFLICT.reasonPhrase,
+            message = e.message ?: "Invalid tree",
+            path = extractPath(request)
+        )
+
+        return ResponseEntity(error, HttpStatus.CONFLICT)
+    }
+
     @ExceptionHandler(ResourceNotFoundException::class)
     fun handleResourceNotFound(e: ResourceNotFoundException, request: WebRequest): ResponseEntity<ApiError> {
         val error = ApiError(
@@ -76,10 +101,14 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException::class)
     fun handleHttpMessageNotReadable(e: HttpMessageNotReadableException, request: WebRequest): ResponseEntity<ApiError> {
+        var message = "Request body is not a valid JSON"
+        if (e.message != null && e.message!!.startsWith("JSON parse error: ")) {
+            message = e.message!!
+        }
         val error = ApiError(
             status = HttpStatus.BAD_REQUEST.value(),
             error = HttpStatus.BAD_REQUEST.reasonPhrase,
-            message = "Request body is not a valid JSON",
+            message = message,
             path = extractPath(request),
         )
 

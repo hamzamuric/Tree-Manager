@@ -2,10 +2,11 @@ package org.hamza.prewave.controller
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import jakarta.validation.Valid
+import org.hamza.prewave.controller.docs.EdgeApi
 import org.hamza.prewave.dto.EdgeDTO
 import org.hamza.prewave.dto.NodeDTO
 import org.hamza.prewave.dto.treeFromEdgeList
-import org.hamza.prewave.service.EdgeService
+import org.hamza.prewave.service.abstraction.EdgeService
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -19,37 +20,38 @@ import java.io.BufferedOutputStream
 class EdgeController(
     private val edgeService: EdgeService,
     private val objectMapper: ObjectMapper,
-) {
-    @GetMapping("/{root}")
-    fun getEdges(@PathVariable root: Int): ResponseEntity<List<EdgeDTO>> =
+) : EdgeApi {
+
+    @GetMapping("/{root}", produces = [MediaType.APPLICATION_JSON_VALUE])
+    override fun getEdges(@PathVariable root: Int): ResponseEntity<List<EdgeDTO>> =
         ResponseEntity.ok(edgeService.getEdges(root))
 
-    @GetMapping("/{root}/pretty")
-    fun getEdgesPretty(@PathVariable root: Int): ResponseEntity<NodeDTO> =
+    @GetMapping("/{root}/pretty", produces = [MediaType.APPLICATION_JSON_VALUE])
+    override fun getEdgesPretty(@PathVariable root: Int): ResponseEntity<NodeDTO> =
         ResponseEntity.ok(
             edgeService.getEdges(root).let { edges ->
                 treeFromEdgeList(root, edges)
             }
         )
 
-    @PostMapping
-    fun createEdge(@Valid @RequestBody dto: EdgeDTO): ResponseEntity<EdgeDTO> =
+    @PostMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
+    override fun createEdge(@Valid @RequestBody dto: EdgeDTO): ResponseEntity<EdgeDTO> =
         ResponseEntity(edgeService.createEdge(dto), HttpStatus.CREATED)
 
-    @DeleteMapping
-    fun deleteEdge(@Valid @RequestBody dto: EdgeDTO): ResponseEntity<Any> {
+    @DeleteMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
+    override fun deleteEdge(@Valid @RequestBody dto: EdgeDTO): ResponseEntity<Any> {
         edgeService.deleteEdge(dto)
         return ResponseEntity.noContent().build()
     }
 
-    @DeleteMapping("/recursive")
-    fun deleteEdgeRecursive(@Valid @RequestBody dto: EdgeDTO): ResponseEntity<Any> {
+    @DeleteMapping("/recursive", produces = [MediaType.APPLICATION_JSON_VALUE])
+    override fun deleteEdgeRecursive(@Valid @RequestBody dto: EdgeDTO): ResponseEntity<Any> {
         edgeService.deleteEdgeRecursive(dto)
         return ResponseEntity.noContent().build()
     }
 
-    @GetMapping("/{root}/stream")
-    fun getEdgesStream(@PathVariable root: Int): ResponseEntity<StreamingResponseBody> {
+    @GetMapping("/{root}/stream", produces = [MediaType.APPLICATION_JSON_VALUE])
+    override fun getEdgesStream(@PathVariable root: Int): ResponseEntity<StreamingResponseBody> {
         val batchSize = 2 // change to 500
 
         val stream = StreamingResponseBody { outputStream ->
